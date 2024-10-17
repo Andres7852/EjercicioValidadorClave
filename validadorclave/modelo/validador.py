@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 import re
+from .errores import (NoTieneLetraMayusculaError, NoTieneLetraMinusculaError, 
+                      NoTieneNumeroError, NoTienePalabraSecretaError)
 
 class ReglaValidacion(ABC):
     @abstractmethod
@@ -22,13 +24,13 @@ class ReglaValidacionGanimedes(ReglaValidacion):
     
     def es_valida(self, clave):
         if not self._contiene_mayuscula(clave):
-            return False
+            raise NoTieneLetraMayusculaError
         if not self._contiene_minuscula(clave):
-            return False
+            raise NoTieneLetraMinusculaError
         if not self._contiene_numero(clave):
-            return False
-        if not self.contiene_caracter_especial(clave):
-            return False
+            raise NoTieneNumeroError
+        if not self.contiene_calisto(clave):
+            raise NoTienePalabraSecretaError
         return True
     
 
@@ -38,12 +40,18 @@ class ReglaValidacionCalisto(ReglaValidacion):
     
     def es_valida(self, clave):
         if not self._contiene_mayuscula(clave):
-            return False
+            raise NoTieneLetraMayusculaError
         if not self._contiene_minuscula(clave):
-            return False
+            raise NoTieneLetraMinusculaError
         if not self._contiene_numero(clave):
-            return False
-        if not self.contiene_caracter_especial(clave):
-            return False
+            raise NoTieneNumeroError
+        if not self.contiene_calisto(clave):
+            raise NoTienePalabraSecretaError
         return True
         
+class Validador:
+    def __init__(self, regla: ReglaValidacion):
+        self.regla = regla
+
+    def es_valida(self, clave):
+        return self.regla.es_valida(clave)
