@@ -1,8 +1,7 @@
 from abc import ABC, abstractmethod
+import re
 
 class ReglaValidacion(ABC):
-    def __init__(self, longitud_minima=8):
-        self.longitud_minima = longitud_minima
 
     @abstractmethod
     def es_valida(self, clave):
@@ -17,7 +16,9 @@ class ReglaValidacion(ABC):
     def _contiene_numero(self, clave):
         return any(c.isdigit() for c in clave)
 
-    def _validar_longitud(self, clave):
-        return len(clave) >= self.longitud_minima
 
+class ReglaValidacionGanimedes(ReglaValidacion):
+    
+    def contiene_caracter_especial(self, clave):
+        return bool(re.search(r'[@_#$%]', clave))
 
