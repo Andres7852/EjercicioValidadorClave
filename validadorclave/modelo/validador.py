@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import re
 
 class ReglaValidacion(ABC):
-
     @abstractmethod
     def es_valida(self, clave):
         pass
@@ -18,7 +17,12 @@ class ReglaValidacion(ABC):
 
 
 class ReglaValidacionGanimedes(ReglaValidacion):
-    
     def contiene_caracter_especial(self, clave):
         return bool(re.search(r'[@_#$%]', clave))
-
+    
+    
+class ReglaValidacionCalisto(ReglaValidacion):
+    def contiene_calisto(self, clave):
+        return 'calisto' in clave.lower()
+    
+    
