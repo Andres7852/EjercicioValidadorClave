@@ -20,9 +20,30 @@ class ReglaValidacionGanimedes(ReglaValidacion):
     def contiene_caracter_especial(self, clave):
         return bool(re.search(r'[@_#$%]', clave))
     
+    def es_valida(self, clave):
+        if not self._contiene_mayuscula(clave):
+            return False
+        if not self._contiene_minuscula(clave):
+            return False
+        if not self._contiene_numero(clave):
+            return False
+        if not self.contiene_caracter_especial(clave):
+            return False
+        return True
     
+
 class ReglaValidacionCalisto(ReglaValidacion):
     def contiene_calisto(self, clave):
         return 'calisto' in clave.lower()
     
-    
+    def es_valida(self, clave):
+        if not self._contiene_mayuscula(clave):
+            return False
+        if not self._contiene_minuscula(clave):
+            return False
+        if not self._contiene_numero(clave):
+            return False
+        if not self.contiene_caracter_especial(clave):
+            return False
+        return True
+        
