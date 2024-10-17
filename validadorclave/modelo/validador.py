@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import re
 from .errores import (NoTieneLetraMayusculaError, NoTieneLetraMinusculaError, 
-                      NoTieneNumeroError, NoTienePalabraSecretaError)
+                      NoTieneNumeroError, NoTieneCaracterEspecialError)
 
 class ReglaValidacion(ABC):
     @abstractmethod
@@ -19,6 +19,9 @@ class ReglaValidacion(ABC):
 
 
 class ReglaValidacionGanimedes(ReglaValidacion):
+    def _validar_longitud(self, clave):
+        return 8 <= len(clave) <= 20
+
     def contiene_caracter_especial(self, clave):
         return bool(re.search(r'[@_#$%]', clave))
     
@@ -30,7 +33,7 @@ class ReglaValidacionGanimedes(ReglaValidacion):
         if not self._contiene_numero(clave):
             raise NoTieneNumeroError
         if not self.contiene_calisto(clave):
-            raise NoTienePalabraSecretaError
+            raise NoTieneCaracterEspecialError
         return True
     
 
@@ -46,7 +49,7 @@ class ReglaValidacionCalisto(ReglaValidacion):
         if not self._contiene_numero(clave):
             raise NoTieneNumeroError
         if not self.contiene_calisto(clave):
-            raise NoTienePalabraSecretaError
+            raise NoTieneCaracterEspecialError
         return True
         
 class Validador:
